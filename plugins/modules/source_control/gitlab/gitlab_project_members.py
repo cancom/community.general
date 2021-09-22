@@ -196,8 +196,11 @@ class GitLabProjectMembers(object):
     def get_project(self, project_name):
         projects = self._gitlab.projects.list(search=project_name)
         for project in projects:
-          if project.path_with_namespace == project_name or project.name == project_name:
-            return project.id
+            if project.path_with_namespace == project_name:
+                return project.id
+        for project in projects:
+            if project.path == project_name or project.name == project_name:
+                return project.id
 
     def get_user_id(self, gitlab_user):
         user_exists = self._gitlab.users.list(username=gitlab_user)
